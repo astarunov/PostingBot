@@ -1,6 +1,6 @@
 import asyncio
 from aiogram import Bot, Dispatcher
-from Handlers import
+from Handlers import bot_messages, user_commands
 
 async def main():
     bot = Bot("|", parse_mode="markdown")
