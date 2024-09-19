@@ -14,5 +14,8 @@ main = ReplyKeyboardMarkup(
     ],[
         KeyboardButton(text = "Креативы"),
         KeyboardButton(text = "Настройки")
-    ]]
+    ],[
+        KeyboardButton(text = "Инструкция"),
+    ]
+    ]
 )

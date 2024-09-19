@@ -7,7 +7,8 @@ async def main():
     dp = Dispatcher()
     user_commands.scheduler.start()
     dp.include_routers(
-        user_commands.router
+        user_commands.router,
+        bot_messages.router
     )
 
 

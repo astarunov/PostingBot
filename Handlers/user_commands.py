@@ -3,16 +3,9 @@ from aiogram.types import Message, CallbackQuery
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from dateutil import parser
 from Keyboards import reply, inline
-from aiogram.filters import CommandStart
 
 router = Router()
 scheduler = AsyncIOScheduler()
-
-@router.message(CommandStart())
-async def start(message: Message):
-    await message.answer("Hi", reply_markup=reply.main)
-    if not scheduler.running:
-        scheduler.start()
 
 async def post_to_channel(bot, chat_id: int = -1002449356618, text: str = "Запланированный пост"):
     try:
@@ -58,7 +51,6 @@ async def process_message(message: Message):
         post_text = post_text.strip()
 
         try:
-
             post_time = parser.parse(post_time_str, fuzzy=False)
             chat_name = await get_channel_name(message.bot, -1002449356618)
             scheduler.add_job(post_to_channel, 'date', run_date=post_time, args=[message.bot, -1002449356618, post_text])
