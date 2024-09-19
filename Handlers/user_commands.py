@@ -13,11 +13,10 @@ CHANNEL_ID = -1002449356618
 @router.message(CommandStart())
 async def start(message: Message):
     try:
-        # Получаем данные о канале
+
         chat = await message.bot.get_chat(CHANNEL_ID)
         channel_name = chat.title
 
-        # Создаем ссылку на канал
         if chat.invite_link:
             channel_link = chat.invite_link
         elif chat.username:
@@ -25,13 +24,11 @@ async def start(message: Message):
         else:
             channel_link = "Ссылка недоступна"
 
-        # Формируем текст для ответа
+
         response_text = (
             "Привет, это твой личный помощник в ведении твоего канала!\n"
             f"[{channel_name}]({channel_link})\n"
         )
-
-        # Отправляем ответ пользователю
         await message.answer(response_text, reply_markup=reply.main, parse_mode="Markdown")
 
     except Exception as e:
