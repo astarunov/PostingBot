@@ -3,10 +3,39 @@ from aiogram.types import Message, CallbackQuery
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from dateutil import parser
 from Keyboards import reply, inline
+from aiogram.filters import CommandStart, Command, CommandObject
 
 router = Router()
 scheduler = AsyncIOScheduler()
+CHANNEL_ID = -1002449356618
 
+
+@router.message(CommandStart())
+async def start(message: Message):
+    try:
+        # Получаем данные о канале
+        chat = await message.bot.get_chat(CHANNEL_ID)
+        channel_name = chat.title
+
+        # Создаем ссылку на канал
+        if chat.invite_link:
+            channel_link = chat.invite_link
+        elif chat.username:
+            channel_link = f"https://t.me/{chat.username}"
+        else:
+            channel_link = "Ссылка недоступна"
+
+        # Формируем текст для ответа
+        response_text = (
+            "Привет, это твой личный помощник в ведении твоего канала!\n"
+            f"[{channel_name}]({channel_link})\n"
+        )
+
+        # Отправляем ответ пользователю
+        await message.answer(response_text, reply_markup=reply.main, parse_mode="Markdown")
+
+    except Exception as e:
+        await message.answer(f"Не удалось получить информацию о канале: {e}", reply_markup=reply.main)
 async def post_to_channel(bot, chat_id: int = -1002449356618, text: str = "Запланированный пост"):
     try:
         await bot.send_message(chat_id=chat_id, text=text)
