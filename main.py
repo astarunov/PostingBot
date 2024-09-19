@@ -8,7 +8,6 @@ async def main():
     user_commands.scheduler.start()
     dp.include_routers(
         user_commands.router,
-        bot_messages.router
     )
 
 
